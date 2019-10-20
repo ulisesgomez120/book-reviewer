@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="row nav">
+  <div class="col">
+    <h2>Book Reviewer</h2>
+  </div>
+  <div class="col text-right">
+    <a href="{% url 'books:index' %}" class="btn btn-success pt-1">Home</a>
+    <a href="{% url 'users:logout' %}" class="btn btn-danger my-2">LOGOUT</a>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <h2>
+    <span class="text-secondary">Name:</span> {{ user.first_name }}
+    {{ user.last_name }}
+  </h2>
+  <h2><span class="text-secondary">Email:</span> {{ user.email }}</h2>
+  <h2><span class="text-secondary">Num of Reviews:</span> {{ count }}</h2>
+</div>
+
+<h3>Books Reviewed:</h3>
+<div class="row">
+  {% for review in books %}
+  <div class="col-sm-3 mb-3">
+    <div class="card grow">
+      <a href="{% url 'books:show' review.book.id %}">
+        <img
+          src="{{ review.book.img_url }}"
+          class="w-100"
+          alt="{{ review.book.name }} front cover"
+          class="card-img-top"
+        />
+      </a>
+      <div class="card-body text-center">
+        <h5 class="card-title">
+          {{ review.book.name }}
+        </h5>
+        <a href="{% url 'books:show' review.book.id %}">Review</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

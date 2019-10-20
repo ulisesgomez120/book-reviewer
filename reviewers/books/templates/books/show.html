@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% load book_extras %} {% block content %}
+<div class="row nav">
+  <div class="col-md-6">
+    <h2>{{ book.name }}</h2>
+    <p class="h4">
+      <span class="text-secondary">Author:</span> {{ book.author.name }}
+    </p>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{% url 'books:index' %}" class="btn btn-success">Home</a>
+    <a href="{% url 'users:logout' %}" class="my-2 btn btn-danger">LOGOUT</a>
+  </div>
+</div>
+<div class="row m-3 mt-5">
+  <div class="col-sm-2 mb-3">
+    <img
+      src="{{ book.img_url }}"
+      class="w-100"
+      alt=" {{ book.title }} book cover"
+    />
+  </div>
+  <div class="col-md-5 ">
+    <h4>Reviews</h4>
+    <p class="mb-1">Average Rating: {{ average_rating }}</p>
+    {% for x in average_rating|rangeFilter%}
+    <!-- find a way to use half stars -->
+    <i class="fas fa-star text-warning"></i>
+    {% endfor%}
+    <hr class="ml-auto" />
+    {% for review in reviews %}
+    <p class="ml-1">Rating: {{ review.rating }}</p>
+    <p class="ml-1">
+      <a href="{% url 'users:show' review.reviewer.id %}">
+        {{ review.reviewer.first_name }}
+      </a>
+      says: {{ review.content }}
+    </p>
+    <p class="ml-1">{{ review.created_at }}</p>
+    <hr class="my-4" />
+    {% endfor %}
+  </div>
+  <div class="col-md-5">
+    <h4>Add Review</h4>
+    <form action="{% url 'books:add_review' book.id %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="review">Review</label>
+        <textarea
+          id="review"
+          class="form-control"
+          name="review"
+          class="w-100 h-50"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating</label>
+        <select id="rating" name="rating" class="form-control">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-lg btn-success">Add Review</button>
+      {% if messages %}
+      <ul class="text-danger">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </form>
+  </div>
+</div>
+
+{% endblock %}

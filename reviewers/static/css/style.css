@@ -1,0 +1,22 @@
+html {
+  box-sizing: border-box;
+}
+body {
+  background-image: url(https://image.freepik.com/free-photo/white-paper-background_1154-683.jpg);
+}
+.nav {
+  background: #444;
+  color: white;
+}
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+}
+#login {
+  display: none;
+}
+.col-md-4 {
+  background: rgba(255, 255, 255, 0.5);
+}

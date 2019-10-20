@@ -1,0 +1,4 @@
+django_env
+.vscode
+*.pyc
+db.sqlite3

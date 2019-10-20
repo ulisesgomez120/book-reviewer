@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-7 mb-3">
+    <h1 class="text-center">ReviewMe!</h1>
+    <p class="h4 text-secondary">
+      ReviewMe! is a social app where users can add, rate, and review their
+      favorite books! Each book is uploaded with it's title, author, and
+      optional cover art. Users can write their own reviews and see past reviews
+      from other users.
+    </p>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <button id="toggle" class="btn btn-warning mb-3">Sign-in</button>
+  <div class="col-md-4 " id="register">
+    <h2>Register</h2>
+    {% if messages %}
+    <ul class="text-danger">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="{% url 'users:create' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input
+          id="first_name"
+          class="form-control"
+          name="first_name"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input
+          id="last_name"
+          class="form-control"
+          name="last_name"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" class="form-control" name="email" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          class="form-control"
+          name="password"
+          type="password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confrim Password</label>
+        <input
+          id="confirm_password"
+          class="form-control"
+          name="confirm_password"
+          type="password"
+        />
+      </div>
+      <button type="submit" class="btn btn-danger mb-3">SUBMIT</button>
+    </form>
+  </div>
+  <div class="col-md-4" id="login">
+    <h2>Login</h2>
+    <form action="{% url 'users:login' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="login_email"
+          class="form-control"
+          name="login_email"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="login_password"
+          class="form-control"
+          name="login_password"
+          type="password"
+        />
+      </div>
+      <button type="submit" class="btn btn-danger mb-3">SUBMIT</button>
+    </form>
+    {% for user in users %}
+    <p>{{ user.email }}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

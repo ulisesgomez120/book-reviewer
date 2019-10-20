@@ -1,0 +1,89 @@
+{% extends 'base.html' %} 
+{% load book_extras %}
+{% block content %}
+
+<div class="row nav">
+  <div class="col">
+    <h2>Hello, {{ user.first_name }}</h2>
+  </div>
+  <div class="col-md-6 text-right">
+
+    <a href="{% url 'users:show' user.id %}" class="btn btn-primary pt-1"
+      >My Reviews</a
+    >
+    <a href="{% url 'books:new' %}" class="btn btn-success pt-1"
+      >Add Book</a
+    >
+    <a href="{% url 'users:logout' %}" class="my-2 btn btn-danger"
+      >Logout</a
+    >
+  </div>
+</div>
+
+<div class="container-fluid ">
+  <h4>Recent Reviews:</h4>
+  <div class="row mb-3">
+    {% for review in recent %}
+    <div class="col">
+      <p class="h5">
+        {{ review.book.name }}
+      </p>
+      <div class="row">
+        <div class="col-md-4 grow">
+            <a href="{% url 'books:show' review.book.id %}">
+              <img
+                src="{{ review.book.img_url }}"
+                class="w-100"
+                alt="{{ review.book.name }} front cover"
+              />
+            </a>
+        </div>
+        <div class="col">
+          <p class="mb-1">Average Rating: {{ average_rating|index:forloop.counter0  }}</p> 
+          {% for x in average_rating|index:forloop.counter0|rangeFilter%}
+            <!-- find a way to use half stars -->
+            <i class="fas fa-star text-warning"></i>
+          {% endfor%}
+
+          <p>
+            <a href="{% url 'users:show' review.reviewer_id %}">
+              {{ review.reviewer.first_name }}
+            </a>
+            says: {{ review.content }}
+          </p>
+          <p>{{ review.created_at }}</p>
+         <a href="{% url 'books:show' review.book.id %}" class="btn btn-primary d-block">Review</a>
+        </div>
+      </div>
+  
+    </div>
+    {% endfor %}
+  </div>
+
+  <h4>All books</h4>
+  <div class="row">
+    {% for book in books %}
+    <div class="col-sm-3 mb-3">
+      <div class="card grow">
+        <a href="{% url 'books:show' book.id %}">
+          <img
+            src="{{book.img_url}}"
+            class="w-100"
+            alt="{{ book.name }} front cover"
+            class="card-img-top"
+          />
+        </a>
+        <div class="card-body text-center">
+          <h5 class="card-title">
+            {{ book.name }}
+          </h5>
+          
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+    
+  </div>
+</div>
+{% endblock %}
